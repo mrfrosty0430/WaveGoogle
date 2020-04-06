@@ -12,92 +12,30 @@ import torch.nn.functional as F
 from torchvision import datasets, transforms
 
 def main():
+
+    i = 0;
+    trainingList = ["a","b","c","d","e","f","g",
+                    "h","i","j","k","l","m","n",
+                    "o","p","q","r","s","t","u",
+                    "v","w","x","y","z","cancelalarm","canceltimer",
+                    "closedfist","ok","set"]
     trainingData = []
     trainingDataY = []
-    label = "b"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = 0
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append(np.asarray(temp))
-        trainingDataY.append(label)
+    for label in trainingList:
 
-
-    label = "cancelalarm"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = 1
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append(np.asarray(temp))
-        trainingDataY.append(label)
-
-    label = "canceltimer"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = 2
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append(np.asarray(temp))
-        trainingDataY.append(label)
-
-    label = "f"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = 3
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append(np.asarray(temp))
-        trainingDataY.append(label)
-
-    label = "ok"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = 4
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append(np.asarray(temp))
-        trainingDataY.append(label)
-        # print(len(temp))
-    label = "set"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = 5
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append(np.asarray(temp))
-        trainingDataY.append(label)
-
-    label = "wave"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = 6
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append(np.asarray(temp))
-        trainingDataY.append(label)
+        output = [0]*len(trainingList)
+        output[i] = 1
+        filepath = "processed/" + label + ".csv"
+        employee_file = open (filepath, mode='r')
+        csv_reader = csv.reader(employee_file)
+        for row in csv_reader:
+            temp = []
+            for elem in row:
+                temp.append(float(elem))
+            trainingData.append(np.asarray(temp))
+            trainingDataY.append(output)
+        i += 1
+    
 
     def shuffle_in_unison(a, b):
         assert len(a) == len(b)

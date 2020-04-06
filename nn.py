@@ -12,86 +12,28 @@ import csv
 
 def main():
 
+    i = 0;
+    trainingList = ["a","b","c","d","e","f","g",
+                    "h","i","j","k","l","m","n",
+                    "o","p","q","r","s","t","u",
+                    "v","w","x","y","z","cancelalarm","canceltimer",
+                    "closedfist","ok","set"]
 
-    trainingData = []
-    label = "b"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = [1,0,0,0,0,0,0]
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append((np.asarray((temp)),np.asarray(label)))
+    for label in trainingList:
 
-    label = "cancelalarm"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = [0,1,0,0,0,0,0]
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append((np.asarray((temp)),np.asarray(label)))
+        output = [0]*len(trainingList)
+        output[i] = 1
+        filepath = "processed/" + label + ".csv"
+        employee_file = open (filepath, mode='r')
+        csv_reader = csv.reader(employee_file)
+        for row in csv_reader:
+            temp = []
+            for elem in row:
+                temp.append(float(elem))
+            trainingData.append((np.asarray((temp)),np.asarray(output)))
 
-    label = "canceltimer"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = [0,0,1,0,0,0,0]
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append((np.asarray((temp)),np.asarray(label)))
+        i += 1
 
-    label = "f"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = [0,0,0,1,0,0,0]
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append((np.asarray((temp)),np.asarray(label)))
-
-    label = "ok"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = [0,0,0,0,1,0,0]
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append((np.asarray((temp)),np.asarray(label)))
-        # print(len(temp))
-    label = "set"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = [0,0,0,0,0,1,0]
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append((np.asarray((temp)),np.asarray(label)))
-
-    label = "wave"
-    filepath = "processed/" + label + ".csv"
-    employee_file = open (filepath, mode='r')
-    csv_reader = csv.reader(employee_file)
-    label = [0,0,0,0,0,0,1]
-    for row in csv_reader:
-        temp = []
-        for elem in row:
-            temp.append(float(elem))
-        trainingData.append((np.asarray((temp)),np.asarray(label)))
-
-    # print(trainingData)
     random.shuffle(trainingData)
     newData = trainingData[:int(len(trainingData)*0.8)]
     testData = trainingData[int(len(trainingData)*0.8):]

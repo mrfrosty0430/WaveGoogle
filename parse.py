@@ -93,39 +93,39 @@ class Hand (IntEnum):
 
 def main():
 
-        #
-        # with open('output/fist1_keypoints.json','r') as reference:
-        #     json_reference = json.load(reference)
-        # data = json_reference["people"][0]
-        # reference_hand = data["hand_right_keypoints_2d"]
-        #
-    training = "wave"
-    dir = "output/" + training
-    filepath = "csv/" + training + ".csv"
-    employee_file = open (filepath, mode='w',)
-    csv_writer = csv.writer(employee_file)
-    for filename in os.listdir(dir):
-        try:
-            print(os.path.join(dir,filename))
-            with open(os.path.join(dir,filename), 'r') as f:
-                json_dict = json.load(f)
+    trainingList = ["a","b","c","d","e","f","g",
+                    "h","i","j","k","l","m","n",
+                    "o","p","q","r","s","t","u",
+                    "v","w","x","y","z","cancelalarm","canceltimer",
+                    "closedfist","ok","set"]
+    for training in trainingList:
+        # training = "wave"
+        dir = "output/" + training
+        filepath = "csv/" + training + ".csv"
+        employee_file = open (filepath, mode='w',)
+        csv_writer = csv.writer(employee_file)
+        for filename in os.listdir(dir):
+            try:
+                print(os.path.join(dir,filename))
+                with open(os.path.join(dir,filename), 'r') as f:
+                    json_dict = json.load(f)
 
-            data = json_dict["people"][0]
-            hand_data = data["hand_right_keypoints_2d"]
+                data = json_dict["people"][0]
+                hand_data = data["hand_right_keypoints_2d"]
 
-        # print(len(hand_data))
-            if (len(hand_data)//3 != 21):
-                print("not enough features to classify")
-                return
-            temp = []
-            for i in range(21):
-                temp.append(hand_data[i*3])
-                temp.append(hand_data[i*3+1])
+            # print(len(hand_data))
+                if (len(hand_data)//3 != 21):
+                    print("not enough features to classify")
+                    return
+                temp = []
+                for i in range(21):
+                    temp.append(hand_data[i*3])
+                    temp.append(hand_data[i*3+1])
 
-            csv_writer.writerow(temp)
-        except:
-            pass
-    employee_file.close()
+                csv_writer.writerow(temp)
+            except:
+                pass
+        employee_file.close()
 
     #
     #
