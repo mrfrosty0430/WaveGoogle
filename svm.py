@@ -21,20 +21,26 @@ def main():
                     "closedfist","ok","set"]
     trainingData = []
     trainingDataY = []
+    
     for label in trainingList:
+        try:
+            output = i
+            filepath = "processed/" + label + ".csv"
+            employee_file = open (filepath, mode='r')
+            csv_reader = csv.reader(employee_file)
+            for row in csv_reader:
+                temp = []
+                for elem in row:
+                    temp.append(float(elem))
+                trainingData.append(np.asarray(temp))
+                trainingDataY.append(output)
+        except:
+            pass
 
-        output = [0]*len(trainingList)
-        output[i] = 1
-        filepath = "processed/" + label + ".csv"
-        employee_file = open (filepath, mode='r')
-        csv_reader = csv.reader(employee_file)
-        for row in csv_reader:
-            temp = []
-            for elem in row:
-                temp.append(float(elem))
-            trainingData.append(np.asarray(temp))
-            trainingDataY.append(output)
         i += 1
+    
+    print(len(trainingData))
+    
     
 
     def shuffle_in_unison(a, b):
@@ -70,6 +76,7 @@ def main():
             incorrect += 1
         else:
             correct += 1
+            print("correct with label %d" %(y_pred[i]))
     print("correctness for linear is %f" %((correct)/(correct+incorrect)))
     correct = 0
     incorrect = 0
