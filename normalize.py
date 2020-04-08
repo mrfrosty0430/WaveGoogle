@@ -20,7 +20,7 @@ def main():
 
         outdir = "processed/" + label
         filepath = "processed/" + label + ".csv"
-        write_file = open(filepath, mode='w')
+        write_file = open(filepath, mode='w'
         csv_writer = csv.writer(write_file)
 
         count = 0

@@ -4,7 +4,8 @@ import math
 import csv
 import os
 
-
+def distance(x1,y1,x2,y2):
+    return math.sqrt((x2-x1)**2 + (y2-y1)**2)
 
 class Hand (IntEnum):
     BASE_X = 0
@@ -113,16 +114,21 @@ def main():
                 data = json_dict["people"][0]
                 hand_data = data["hand_right_keypoints_2d"]
 
+
             # print(len(hand_data))
                 if (len(hand_data)//3 != 21):
                     print("not enough features to classify")
-                    return
-                temp = []
-                for i in range(21):
-                    temp.append(hand_data[i*3])
-                    temp.append(hand_data[i*3+1])
+                else:
+                    temp = []
+                    body_data = data["pose_keypoints_2d"]
+                    body_3x,body_3y = body_data[3*3],body_data[3*3+1]
+                    body_4x,body_4y = body_data[4*3],body_data[4*3+1]
+                    temp.append(distance(body_3x,body_3y,body_4x,body_4y))
+                    for i in range(21):
+                        temp.append(hand_data[i*3])
+                        temp.append(hand_data[i*3+1])
 
-                csv_writer.writerow(temp)
+                    csv_writer.writerow(temp)
             except:
                 pass
         employee_file.close()

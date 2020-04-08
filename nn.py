@@ -11,7 +11,7 @@ import random
 import csv
 
 def main():
-
+    trainingData = []
     i = 0;
     trainingList = ["a","b","c","d","e","f","g",
                     "h","i","j","k","l","m","n",
@@ -47,7 +47,7 @@ def main():
     # hiddenlayer2 = 32
     model = nn.Sequential(nn.Linear(42, hiddenlayer),
                           nn.Sigmoid(),
-                          nn.Linear(hiddenlayer,7),
+                          nn.Linear(hiddenlayer,len(trainingList)),
 
 
                           # nn.Sigmoid())
