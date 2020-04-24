@@ -21,6 +21,9 @@ def main():
                     "o","p","r","s","t","u",
                     "v","w","x","y","z","cancelalarm","canceltimer",
                     "closedfist","ok","set"]
+
+    u_vs_vList = ["u","v"]
+
     trainingData = []
     trainingDataY = []
 
@@ -35,7 +38,19 @@ def main():
         trainingData.append(np.asarray(temp))
         trainingDataY.append(int(row[-1]))
 
-    print(len(trainingData))
+
+    testData = []
+    testDataY = []
+    filepath = "test/testdata_normalized.csv"
+    employee_file = open (filepath, mode='r')
+    csv_reader = csv.reader(employee_file)
+    for row in csv_reader:
+        temp = []
+        data = row[:-1]
+        for elem in data:
+            temp.append(float(elem))
+        testData.append(np.asarray(temp))
+        testDataY.append(int(row[-1]))
 
 
 
@@ -51,15 +66,9 @@ def main():
 
     trainingData,trainingDataY = shuffle_in_unison(np.asarray(trainingData),np.asarray(trainingDataY))
 
-    print(trainingDataY)
-    newData = trainingData[:int(len(trainingData)*0.8)]
-    testData = trainingData[int(len(trainingData)*0.8):]
-    newDataY = trainingDataY[:int(len(trainingData)*0.8)]
-    testDataY = trainingDataY[int(len(trainingData)*0.8):]
-
-    linear_svc = SVC(kernel = "linear").fit(newData,newDataY)
-    rbf_svc = SVC(kernel='rbf', gamma=3).fit(newData, newDataY)
-    poly_svc = SVC(kernel='poly', degree=7).fit(newData, newDataY)
+    linear_svc = SVC(kernel = "linear").fit(trainingData,trainingDataY)
+    rbf_svc = SVC(kernel='rbf', gamma=3).fit(trainingData,trainingDataY)
+    poly_svc = SVC(kernel='poly', degree=7).fit(trainingData,trainingDataY)
 
     y_pred = linear_svc.predict(testData)
     y_pred1 = rbf_svc.predict(testData)
@@ -68,29 +77,44 @@ def main():
     correct = 0
     incorrect = 0
     for i in range(len(y_pred)):
+        print("on label %s " %trainingList[testDataY[i]],end="")
+        # if trainingList[y_pred[i]] == "u":
+        #     estimator = joblib.load("%s.pkl"%"u_vs_v_svc")
+        #     tempTestData = [testData[i]]
+        #     y_new_pred = estimator.predict(tempTestData)
+        #     if (u_vs_vList[y_new_pred[0]] != trainingList[testDataY[i]]):
+        #         incorrect += 1
+        #         print("incorrect with label %s, first predicted u, then guessed %s " %(trainingList[testDataY[i]],u_vs_vList[y_new_pred[0]]))
+        #     else:
+        #         correct += 1
+        #         print("correct with label %s" %(u_vs_vList[y_new_pred[0]]))
+        # else:
         if y_pred[i] != testDataY[i]:
+
             incorrect += 1
-            print("incorrect with label %s, guessed %s " %(trainingList[y_pred[i]],trainingList[testDataY[i]]))
+            print("incorrect with label %s, guessed %s " %(trainingList[testDataY[i]],trainingList[y_pred[i]]))
         else:
             correct += 1
-            print("correct with label %d" %(y_pred[i]))
+            print("correct with label %s" %(trainingList[y_pred[i]]))
     print("correctness for linear is %f" %((correct)/(correct+incorrect)))
-    correct = 0
-    incorrect = 0
-    for i in range(len(y_pred)):
-        if y_pred1[i] != testDataY[i]:
-            incorrect += 1
-        else:
-            correct += 1
-    print("correctness for gaussian is %f" %((correct)/(correct+incorrect)))
-    correct = 0
-    incorrect = 0
-    for i in range(len(y_pred)):
-        if y_pred2[i] != testDataY[i]:
-            incorrect += 1
-        else:
-            correct += 1
-    print("correctness for polynomial is %f" %((correct)/(correct+incorrect)))
+
+    # correct = 0
+    # incorrect = 0
+    # for i in range(len(y_pred)):
+    #     if y_pred1[i] != testDataY[i]:
+    #         incorrect += 1
+    #     else:
+    #         correct += 1
+    # print("correctness for gaussian is %f" %((correct)/(correct+incorrect)))
+    # correct = 0
+    # incorrect = 0
+    # for i in range(len(y_pred)):
+    #     if y_pred2[i] != testDataY[i]:
+    #         incorrect += 1
+    #     else:
+    #         correct += 1
+    # print("correctness for polynomial is %f" %((correct)/(correct+incorrect)))
+
     joblib.dump(linear_svc,"%s.pkl" % ("linear_svc"))
 
 
