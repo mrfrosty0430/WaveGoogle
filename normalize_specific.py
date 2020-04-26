@@ -5,11 +5,11 @@ def distance(x1,y1,x2,y2):
     return math.sqrt((x2-x1)**2 + (y2-y1)**2)
 
 def main():
-    filepath = "u_vs_v_normalized.csv"
+    filepath = "r_vs_x_normalized.csv"
     write_file = open(filepath,mode='w')
     csv_writer = csv.writer(write_file)
 
-    input = "u_vs_v.csv"
+    input = "r_vs_x.csv"
     read_file = open(input,mode='r')
     csv_reader = csv.reader(read_file)
 

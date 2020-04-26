@@ -16,14 +16,17 @@ import pickle
 def main():
 
     i = 0;
-    trainingList = ["b","e","f","g",
-                    "h","i","j","k","l","m","n",
-                    "o","p","r","s","t","u",
-                    "v","w","x","y","z","cancelalarm","canceltimer",
-                    "closedfist","ok","set"]
+    trainingList = ['a', 'b', 'cancelalarm', 'canceltimer', 'closedfist', 'e', 'eight',
+                    'f', 'five', 'four', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'nine',
+                    'o', 'ok', 'one', 'p', 'r', 's', 'set', 'settimer', 'seven', 'six',
+                    'stop', 't', 'three', 'two', 'u', 'v', 'w', 'x', 'y', 'z', 'zero']
 
     u_vs_vList = ["u","v"]
+    b_vs_fList = ["b","f"]
+    p_vs_setList = ["p","set"]
+    r_vs_xList = ["r","x"]
 
+#
     trainingData = []
     trainingDataY = []
 
@@ -70,32 +73,61 @@ def main():
     rbf_svc = SVC(kernel='rbf', gamma=3).fit(trainingData,trainingDataY)
     poly_svc = SVC(kernel='poly', degree=7).fit(trainingData,trainingDataY)
 
-    y_pred = linear_svc.predict(testData)
-    y_pred1 = rbf_svc.predict(testData)
-    y_pred2 = poly_svc.predict(testData)
-
+    # y_pred = linear_svc.predict(testData)
+    # y_pred1 = rbf_svc.predict(testData)
+    # y_pred2 = poly_svc.predict(testData)
+    # joblib.dump(linear_svc,"%s.pkl" % ("linear_svc"))
     correct = 0
     incorrect = 0
+
+#
+    estimator = joblib.load("%s.pkl"%"linear_svc")
+    y_pred = estimator.predict(testData)
     for i in range(len(y_pred)):
         print("on label %s " %trainingList[testDataY[i]],end="")
-        # if trainingList[y_pred[i]] == "u":
-        #     estimator = joblib.load("%s.pkl"%"u_vs_v_svc")
-        #     tempTestData = [testData[i]]
-        #     y_new_pred = estimator.predict(tempTestData)
-        #     if (u_vs_vList[y_new_pred[0]] != trainingList[testDataY[i]]):
-        #         incorrect += 1
-        #         print("incorrect with label %s, first predicted u, then guessed %s " %(trainingList[testDataY[i]],u_vs_vList[y_new_pred[0]]))
-        #     else:
-        #         correct += 1
-        #         print("correct with label %s" %(u_vs_vList[y_new_pred[0]]))
-        # else:
-        if y_pred[i] != testDataY[i]:
+        if trainingList[y_pred[i]] == "f":
+            estimator = joblib.load("%s.pkl"%"b_vs_f_svc")
+            tempTestData = [testData[i]]
+            y_new_pred = estimator.predict(tempTestData)
+            if (b_vs_fList[y_new_pred[0]] != trainingList[testDataY[i]]):
+                incorrect += 1
+                print("incorrect with label %s, first predicted f, then guessed %s " %(trainingList[testDataY[i]],b_vs_fList[y_new_pred[0]]))
+            else:
+                correct += 1
+                print("correct with label %s" %(b_vs_fList[y_new_pred[0]]))
 
-            incorrect += 1
-            print("incorrect with label %s, guessed %s " %(trainingList[testDataY[i]],trainingList[y_pred[i]]))
+        elif trainingList[y_pred[i]] == "p":
+            estimator = joblib.load("%s.pkl"%"p_vs_set_svc")
+            tempTestData = [testData[i]]
+            y_new_pred = estimator.predict(tempTestData)
+            if (p_vs_setList[y_new_pred[0]] != trainingList[testDataY[i]]):
+                incorrect += 1
+                print("incorrect with label %s, first predicted p, then guessed %s " %(trainingList[testDataY[i]],p_vs_setList[y_new_pred[0]]))
+            else:
+                correct += 1
+                print("correct with label %s" %(p_vs_setList[y_new_pred[0]]))
+
+        elif trainingList[y_pred[i]] == "x":
+            estimator = joblib.load("%s.pkl"%"r_vs_x_svc")
+            tempTestData = [testData[i]]
+            y_new_pred = estimator.predict(tempTestData)
+            if (r_vs_xList[y_new_pred[0]] != trainingList[testDataY[i]]):
+                incorrect += 1
+                print("incorrect with label %s, first predicted x, then guessed %s " %(trainingList[testDataY[i]],r_vs_xList[y_new_pred[0]]))
+            else:
+                correct += 1
+                print("correct with label %s" %(r_vs_xList[y_new_pred[0]]))
+
         else:
-            correct += 1
-            print("correct with label %s" %(trainingList[y_pred[i]]))
+            if y_pred[i] != testDataY[i]:
+
+                incorrect += 1
+                print("incorrect with label %s, guessed %s " %(trainingList[testDataY[i]],trainingList[y_pred[i]]))
+            else:
+                correct += 1
+                print("correct with label %s" %(trainingList[y_pred[i]]))
+
+    print("testing %d images" % (len(y_pred)))
     print("correctness for linear is %f" %((correct)/(correct+incorrect)))
 
     # correct = 0
@@ -115,7 +147,6 @@ def main():
     #         correct += 1
     # print("correctness for polynomial is %f" %((correct)/(correct+incorrect)))
 
-    joblib.dump(linear_svc,"%s.pkl" % ("linear_svc"))
 
 
 if __name__ == '__main__':

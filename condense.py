@@ -4,11 +4,10 @@ import csv
 
 def main():
 
-    trainingList = ["b","e","f","g",
-                    "h","i","j","k","l","m","n",
-                    "o","p","r","s","t","u",
-                    "v","w","x","y","z","cancelalarm","canceltimer",
-                    "closedfist","ok","set"]
+    trainingList = ['a', 'b', 'cancelalarm', 'canceltimer', 'closedfist', 'e', 'eight',
+                    'f', 'five', 'four', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'nine',
+                    'o', 'ok', 'one', 'p', 'r', 's', 'set', 'settimer', 'seven', 'six',
+                    'stop', 't', 'three', 'two', 'u', 'v', 'w', 'x', 'y', 'z', 'zero']
 
     filepath = "alldata.csv"
     write_file = open(filepath, mode='w')

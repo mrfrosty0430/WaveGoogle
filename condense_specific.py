@@ -4,9 +4,9 @@ import csv
 
 def main():
 
-    trainingList = ["u","v"]
+    trainingList = ["r","x"]
 
-    filepath = "u_vs_v.csv"
+    filepath = "r_vs_x.csv"
     write_file = open(filepath, mode='w')
     csv_writer = csv.writer(write_file)
 

@@ -16,11 +16,12 @@ import pickle
 def main():
 
     i = 0;
-    trainingList = ["u","v"]
+    trainingList = ["b","f"]
     trainingData = []
     trainingDataY = []
 
-    filepath = "u_vs_v_normalized.csv"
+    filepath = "b_vs_f_normalized.csv"
+    name = "b_vs_f_svc"
     employee_file = open (filepath, mode='r')
     csv_reader = csv.reader(employee_file)
     for row in csv_reader:
@@ -93,7 +94,7 @@ def main():
     #     else:
     #         correct += 1
     # print("correctness for polynomial is %f" %((correct)/(correct+incorrect)))
-    joblib.dump(linear_svc,"%s.pkl" % ("u_vs_v_svc"))
+    joblib.dump(linear_svc,"%s.pkl" % (name))
 
 
 if __name__ == '__main__':

@@ -20,11 +20,10 @@ def distance (x1,y1,x2,y2):
 
 def main():
 
-    trainingList = ["b","e","f","g",
-                    "h","i","j","k","l","m","n",
-                    "o","p","r","s","t","u",
-                    "v","w","x","y","z","cancelalarm","canceltimer",
-                    "closedfist","ok","set"]
+    trainingList = ['a', 'b', 'cancelalarm', 'canceltimer', 'closedfist', 'e', 'eight',
+                    'f', 'five', 'four', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'nine',
+                    'o', 'ok', 'one', 'p', 'r', 's', 'set', 'settimer', 'seven', 'six',
+                    'stop', 't', 'three', 'two', 'u', 'v', 'w', 'x', 'y', 'z', 'zero']
     trainingData = []
     trainingDataY = []
     trainingData = []
@@ -32,14 +31,15 @@ def main():
 
     reference = "reference.csv"
 
-    image_dir = "samples/"
+    image_dir = "testpredict/"
     output_dir = "output/"
     # os.system("./build/examples/openpose/openpose.bin --image_dir samples --write_images results --hand --write_json output")
 
     testData = []
     for filename in os.listdir(image_dir):
-        if "png" in filename:
-            json_file = output_dir + (filename.split(".png")[0] + "_keypoints.json")
+        print(filename)
+        if "json" in filename:
+            json_file = image_dir + filename
 
             ref_file = open(reference,'r')
             ref_reader = csv.reader(ref_file)
@@ -68,8 +68,8 @@ def main():
             new_points = []
             length_arm = float(row[0])
             ratio = length_arm / float(ref[0])
-            base_x = float(row[1])
-            base_y = float(row[2])
+            base_x = float(temp[1])
+            base_y = float(temp[2])
             new_points.append(base_x)
             new_points.append(base_y)
             for feature in range(1,21):
@@ -83,8 +83,8 @@ def main():
                 ##offset by one because relative_points has 20 inputs
                 new_rise = math.sin(angle) * segment_length
                 new_run = math.cos(angle) * segment_length
-                print(new_rise)
-                print(new_run)
+                # print(new_rise)
+                # print(new_run)
 
                 new_x = base_x + new_run
                 new_y = base_y + new_rise
